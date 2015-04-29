@@ -1,4 +1,5 @@
 From root project directory run the following
+
 $ ./vendor/phpunit/phpunit/phpunit tests/BaseTest
 
 Some assumptions
@@ -51,6 +52,7 @@ Expected Output:
 
 
 __Part 2__
+
 Nigel hasn't stopped there, no! He has an opportunity to wire his robots onto the neighbours lawnmowers as well to make the work even easier. But he doesn't want to reprogram the mowers every time he adds a mower.
 
 INPUT
