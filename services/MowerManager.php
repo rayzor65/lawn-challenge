@@ -22,15 +22,17 @@ class MowerManager
 
     /**
      * All mowers begin mowing
+     * They move all at once and after each move we check for collisions
      */
     public function mow()
     {
-        // keep tally of which instruction we are up to
+        // keep tally of which instruction/turn we are up to
         $instructionTally = 0;
         $maxNumInstructions = $this->findMaxNumberOfInstructions();
 
-        // move mowers
+        // go through instructions/turns
         for ($i = 0; $i < $maxNumInstructions; $i++) {
+            // move each mower according to their instruction
             foreach ($this->getMowers() as $k => $mower) {
                 $currentInstructions = $mower->getInstructions();
 
@@ -49,6 +51,7 @@ class MowerManager
             $instructionTally++;
         }
 
+        // Save the mowers back to the MowerManager
         $this->setMowers($mowers);
     }
 
@@ -59,6 +62,7 @@ class MowerManager
     {
         $hasCollision = false;
 
+        // Check each mower with every other mower
         foreach ($this->getMowers() as $k => $mower) {
             foreach ($this->getMowers() as $j => $otherMower) {
                 // Do not compare with yourself
@@ -85,6 +89,7 @@ class MowerManager
             throw new BadMethodCallException('Please specify an input');
         }
 
+        // Get the input file and put it into an array for convenience
         $fileHandle = fopen($this->getInput(), "r");
         if ($fileHandle) {
             while (($line = fgets($fileHandle)) !== false) {
@@ -137,6 +142,7 @@ class MowerManager
             throw new BadMethodCallException('Please specify an output');
         }
 
+        // Get the output file and put it into an array for convenience
         $fileHandle = fopen($this->getExpectedOutput(), "r");
         if ($fileHandle) {
             while (($line = fgets($fileHandle)) !== false) {
@@ -145,6 +151,7 @@ class MowerManager
             fclose($fileHandle);
         }
 
+        // Create an array of mowers with properties that reflect the expected output
         $expectedOutputMowers = array();
         foreach ($fileLines as $k => $line) {
             $endingCoordinates = explode(' ', $line);
@@ -178,11 +185,12 @@ class MowerManager
     protected function getMaxNumberOfMoves($mowerInstructions)
     {
         $numMovesOfMowers = array_map('strlen', $mowerInstructions);
-
         return max($numMovesOfMowers);
     }
 
     /**
+     * A lawn is an array of arrays
+     *
      * @param $x
      * @param $y
      */
@@ -287,6 +295,8 @@ class MowerManager
     }
 
     /**
+     * Map string representation of heading to a number in degrees
+     *
      * @param $headingStr
      * @return int|null
      */
@@ -339,6 +349,8 @@ class MowerManager
     }
 
     /**
+     * The max number of instructions is the number of turns we have to go through so that all mowers have finished
+     *
      * @return int
      */
     public function findMaxNumberOfInstructions()
