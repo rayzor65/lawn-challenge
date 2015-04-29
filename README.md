@@ -8,6 +8,7 @@ Some assumptions
 - Format is like below
 
 Eg test-1
+
 5 5 #size
 
 1 2 N #mower1 position
